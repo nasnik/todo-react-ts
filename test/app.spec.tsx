@@ -4,24 +4,27 @@ import '@testing-library/jest-dom';
 import App from '../src/App';
 
 describe('App Component', () => {
-    it('renders the header "Todo List"', () => {
+    beforeEach(() => {
         render(<App />);
-        const header = screen.getByRole('heading', { name: /todo list/i });
-        expect(header).toBeInTheDocument();
     });
 
-    it('renders all to-do items', () => {
-        render(<App />);
-        const todoItems = ['Learn React', 'Learn NodeJS', 'Learn JavaScript'];
-        todoItems.forEach((item) => {
-            const listItem = screen.getByText(item);
-            expect(listItem).toBeInTheDocument();
-        });
+    it('should render the main title', () => {
+        expect(screen.getByText(/Todo List/i)).toBeInTheDocument();
     });
 
-    it('renders the correct number of to-do items', () => {
-        render(<App />);
-        const listItems = screen.getAllByRole('listitem');
-        expect(listItems).toHaveLength(3);
+    it('should render input with title label', () => {
+        expect(screen.getByLabelText(/Title/i)).toBeInTheDocument();
+    });
+
+    it('should render a form', () => {
+        expect(screen.getByRole('form')).toBeInTheDocument();
+    });
+
+    it('should render three list items', () => {
+        expect(screen.getAllByRole('listitem')).toHaveLength(3);
+    });
+
+    it('should render add button', () => {
+        expect(screen.getByRole('button', { name: /Add/i })).toBeInTheDocument();
     });
 });
