@@ -1,4 +1,5 @@
 import React from 'react';
+import TodoListItem from "./TodoListItem.tsx";
 interface TodoItem{
     id: number;
     title: string;
@@ -12,7 +13,7 @@ const TodoList = () => {
     return (
         <ul>
             {todoList.map(item =>
-                <li key={item.id}>{item.title}</li>
+                <TodoListItem key={item.id} item={item.title}/>
             )}
         </ul>
     );
