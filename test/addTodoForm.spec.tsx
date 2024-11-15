@@ -29,7 +29,7 @@ describe('AddTodoForm Component', () => {
     });
 
     it('has input with correct ID', () => {
-        expect(screen.getByRole('textbox')).toHaveAttribute('id', 'todoTitle');
+        expect(screen.getByRole('textbox')).toHaveAttribute('id', 'addTodoTitle');
     });
 
     it('has submit button with correct text', () => {
