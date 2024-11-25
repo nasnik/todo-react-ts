@@ -1,10 +1,19 @@
 import React from 'react';
-
-const AddTodoForm = () => {
+interface AddTodoFormProps {
+    onAddTodo: (title: string) => void;
+}
+const AddTodoForm = ({onAddTodo}: AddTodoFormProps) => {
+    const handleAddTodo = (e: React.SyntheticEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const inputField = e.currentTarget.elements.namedItem("title") as HTMLInputElement;
+        const inputValue = inputField.value;
+        onAddTodo(inputValue);
+        inputField.value = '';
+    };
     return (
-        <form role="form">
-            <label htmlFor="todoTitle">Title</label>
-            <input type="text" id="todoTitle"/>
+        <form role="form" id="addTodoTitleForm" onSubmit={handleAddTodo}>
+            <label htmlFor="addTodoTitle">Title</label>
+            <input id="addTodoTitle" name="title" type="text" />
             <button type="submit">Add</button>
         </form>
     );
