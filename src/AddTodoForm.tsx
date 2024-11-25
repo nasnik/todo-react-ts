@@ -7,7 +7,6 @@ const AddTodoForm = ({onAddTodo}: AddTodoFormProps) => {
         e.preventDefault();
         const inputField = e.currentTarget.elements.namedItem("title") as HTMLInputElement;
         const inputValue = inputField.value;
-        console.log(inputValue);
         onAddTodo(inputValue);
         inputField.value = '';
     };

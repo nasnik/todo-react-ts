@@ -4,7 +4,7 @@ import TodoList from "./TodoList.tsx";
 import AddTodoForm from "./AddTodoForm.tsx";
 
 function App() {
-    const [newTodo, setNewTodo] = useState<string>();
+    const [newTodo, setNewTodo] = useState<string>('');
     const onAddTodo = (title: string)=> {
         setNewTodo(title);
     }
