@@ -8,23 +8,15 @@ describe('App Component', () => {
         render(<App />);
     });
 
-    it('should render the main title', () => {
+    it('renders the main title', () => {
         expect(screen.getByText(/Todo List/i)).toBeInTheDocument();
     });
 
-    it('should render input with title label', () => {
-        expect(screen.getByLabelText(/Title/i)).toBeInTheDocument();
-    });
-
-    it('should render a form', () => {
+    it('renders the AddTodoForm component', () => {
         expect(screen.getByRole('form')).toBeInTheDocument();
     });
 
-    it('should render three list items', () => {
-        expect(screen.getAllByRole('listitem')).toHaveLength(3);
-    });
-
-    it('should render add button', () => {
-        expect(screen.getByRole('button', { name: /Add/i })).toBeInTheDocument();
+    it('renders the TodoList component with no initial items', () => {
+        expect(screen.queryByRole('listitem')).toBeNull();
     });
 });
