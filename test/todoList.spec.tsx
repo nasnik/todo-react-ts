@@ -2,29 +2,26 @@ import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import TodoList from '../src/TodoList';
+import { Todo } from '../src/types';
 
 describe('TodoList Component', () => {
+    const mockTodoList: Todo[] = [
+        { id: 1, title: 'Learn TypeScript' },
+        { id: 2, title: 'Build a Todo App' },
+    ];
+
     beforeEach(() => {
-        render(<TodoList />);
+        render(<TodoList todoList={mockTodoList} />);
     });
 
-    it('renders exactly three list items', () => {
-        expect(screen.getAllByRole('listitem')).toHaveLength(3);
+    it('renders the correct number of list items', () => {
+        expect(screen.getAllByRole('listitem')).toHaveLength(mockTodoList.length);
     });
 
-    it('displays "Learn React" todo item', () => {
-        expect(screen.getByText('Learn React')).toBeInTheDocument();
-    });
-
-    it('displays "Learn NodeJS" todo item', () => {
-        expect(screen.getByText('Learn NodeJS')).toBeInTheDocument();
-    });
-
-    it('displays "Learn JavaScript" todo item', () => {
-        expect(screen.getByText('Learn JavaScript')).toBeInTheDocument();
-    });
-
-    it('renders as an unordered list', () => {
-        expect(screen.getByRole('list')).toBeInTheDocument();
+    it('displays all todo items', () => {
+        mockTodoList.forEach(todo => {
+            expect(screen.getByText(todo.title)).toBeInTheDocument();
+        });
     });
 });
+

@@ -1,9 +1,9 @@
 import * as React from 'react';
-import {fireEvent, render, screen} from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import App from '../../src/App';
 
-describe('App Component', () => {
+describe('App Component - AddTodo Integration', () => {
     beforeEach(() => {
         render(<App />);
     });
@@ -19,10 +19,10 @@ describe('App Component', () => {
     });
 
     it('clears the input field after submit', () => {
-        const input = screen.getByLabelText(/title/i);
-        const button = screen.getByRole('button', { name: /add/i });
+        const input = screen.getByLabelText(/Title/i);
+        const button = screen.getByRole('button', { name: /Add/i });
 
-        fireEvent.change(input, { target: { value: 'Another Todo' } });
+        fireEvent.change(input, { target: { value: 'New Task' } });
         fireEvent.click(button);
 
         expect(input).toHaveValue('');
