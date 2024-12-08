@@ -1,10 +1,9 @@
 import React from 'react';
-interface TodoListItemProps {
-    item: string;
-}
-const TodoListItem: React.FC<TodoListItemProps> = ({item}) => {
+import {TodoListItemProps} from "./types.ts";
+
+const TodoListItem: React.FC<TodoListItemProps> = ({item, removeTodo}) => {
     return (
-        <li>{item}</li>
+        <li>{item.title}&nbsp;<button onClick={()=>removeTodo(item.id)}>Remove</button></li>
     );
 };
 
