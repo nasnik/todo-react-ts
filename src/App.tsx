@@ -3,28 +3,39 @@ import './App.css';
 import TodoList from './TodoList.tsx';
 import AddTodoForm from './AddTodoForm.tsx';
 import { Todo } from './types.ts';
+import {addTodoToAPI, fetchTodos} from "./utils/api.ts";
 
 function App() {
-
     const [todoList, setTodoList] = useState<Todo[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    const simulateLoading = (): Promise<{ data: { todoList: Todo[] } }> => {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                const savedTodoList = localStorage.getItem('savedTodoList');
-                resolve({
-                    data: { todoList: savedTodoList ? JSON.parse(savedTodoList) : [] },
-                });
-            }, 2000);
-        });
+    const fetchData = async () => {
+        setIsLoading(true);
+        try {
+            const todos = await fetchTodos();
+            setTodoList(todos);
+        } catch (error) {
+            console.error('Failed to fetch todos:', error.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const addTodo = async (newTodo: Todo) => {
+        try {
+            const addedTodo = await addTodoToAPI(newTodo);
+            setTodoList((prevTodoList) => [...prevTodoList, addedTodo]);
+        } catch (error) {
+            console.error('Failed to add todo:', error.message);
+        }
+    };
+
+    const removeTodo = (id: number) => {
+        setTodoList((prevTodoList) => prevTodoList.filter((todo) => todo.id !== id));
     };
 
     useEffect(() => {
-        simulateLoading().then((result) => {
-            setTodoList(result.data.todoList);
-            setIsLoading(false);
-        });
+        fetchData();
     }, []);
 
     useEffect(() => {
@@ -33,15 +44,7 @@ function App() {
         }
     }, [todoList, isLoading]);
 
-    const removeTodo = (id: number) => {
-        setTodoList((prevTodoList) => prevTodoList.filter((todo) => todo.id !== id));
-    };
-
-    const addTodo = (newTodo: Todo) => {
-        setTodoList((prevTodoList) => [...prevTodoList, newTodo]);
-    };
-
-        return isLoading ? (
+    return isLoading ? (
         <h2>Loading...</h2>
     ) : (
         <React.Fragment>
