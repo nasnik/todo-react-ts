@@ -4,6 +4,7 @@ import TodoList from './TodoList.tsx';
 import AddTodoForm from './AddTodoForm.tsx';
 import { Todo } from './types.ts';
 import {addTodoToAPI, fetchTodos} from "./utils/api.ts";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 
 function App() {
     const [todoList, setTodoList] = useState<Todo[]>([]);
@@ -47,11 +48,30 @@ function App() {
     return isLoading ? (
         <h2>Loading...</h2>
     ) : (
-        <React.Fragment>
-            <h1>Todo List</h1>
-            <AddTodoForm addTodo={addTodo} />
-            <TodoList todoList={todoList} removeTodo={removeTodo} />
-        </React.Fragment>
+        <BrowserRouter>
+            {isLoading ? (
+                <h2>Loading...</h2>
+            ) : (
+                <Routes>
+                    <Route
+                        path="/"
+                        element={
+                            <>
+                                <h1>Todo List</h1>
+                                <AddTodoForm addTodo={addTodo} />
+                                <TodoList todoList={todoList} removeTodo={removeTodo} />
+                            </>
+                        }
+                    />
+                    <Route path="/new"
+                    element={
+                        <>
+                            <h1>New Todo List</h1>
+                        </>
+                    }/>
+                </Routes>
+            )}
+        </BrowserRouter>
     );
 }
 
