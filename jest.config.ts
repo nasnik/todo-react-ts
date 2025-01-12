@@ -8,5 +8,5 @@ export default {
     },
     roots: ["<rootDir>/test"],
     testMatch: ["**/?(*.)+(spec|test).ts?(x)"],
-    moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"]
+    moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
 };
