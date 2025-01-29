@@ -1,0 +1,10 @@
+.Input {
+    border: 2px solid #f76c6c;
+    border-radius: 5px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    margin-right: 0.5rem;
+}
+.Label{
+    font-weight: bold;
+}
