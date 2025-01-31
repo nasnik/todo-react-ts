@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import './App.css';
+import React, {useEffect, useRef, useState} from 'react';
+import styles from './App.module.css';
 import TodoList from './TodoList.tsx';
 import AddTodoForm from './AddTodoForm.tsx';
 import { Todo } from './types.ts';
 import {addTodoToAPI, fetchTodos} from "./utils/api.ts";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {createBalloons} from "./utils/balloonAnimation.ts";
 
 function App() {
     const [todoList, setTodoList] = useState<Todo[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const balloonContainerRef = useRef<HTMLDivElement>(null);
 
     const fetchData = async () => {
         setIsLoading(true);
@@ -45,6 +47,12 @@ function App() {
         }
     }, [todoList, isLoading]);
 
+    useEffect(() => {
+        if (!isLoading) {
+            return createBalloons(balloonContainerRef.current);
+        }
+    }, [isLoading]);
+
     return isLoading ? (
         <h2>Loading...</h2>
     ) : (
@@ -56,11 +64,11 @@ function App() {
                     <Route
                         path="/"
                         element={
-                            <>
-                                <h1>Todo List</h1>
+                            <div className={styles.Container} id="balloon-container" ref={balloonContainerRef}>
+                                <h1 className={styles.Title}>Todo List</h1>
                                 <AddTodoForm addTodo={addTodo} />
                                 <TodoList todoList={todoList} removeTodo={removeTodo} />
-                            </>
+                            </div>
                         }
                     />
                     <Route path="/new"
