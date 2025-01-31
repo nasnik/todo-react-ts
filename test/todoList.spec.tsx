@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import TodoList from '../src/TodoList';
+import TodoList from '../src/components/TodoList.tsx';
 import { Todo } from '../src/types';
 
 describe('TodoList Component', () => {
