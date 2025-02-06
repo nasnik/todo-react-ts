@@ -29,12 +29,37 @@ export const apiRequest = async (url: string, method: string = 'GET', body?: obj
     }
 };
 
-export const fetchTodos = async () => {
-    const data = await apiRequest(AIRTABLE_API_BASE_URL);
-    return data.records.map((todo: any) => ({
-        id: todo.id,
-        title: todo.fields.title,
-    }));
+export const fetchTodos = async (isAscending: boolean, sortMode: 'alphabetic' | 'time') => {
+    try {
+        const data = await apiRequest(`${AIRTABLE_API_BASE_URL}?view=Grid%20view`);
+        console.log(data);
+
+        const sortedTodos = data.records.sort((a, b) => {
+            if (sortMode === 'alphabetic') {
+                const titleA = a.fields.title.toLowerCase();
+                const titleB = b.fields.title.toLowerCase();
+                return isAscending
+                    ? titleA.localeCompare(titleB)
+                    : titleB.localeCompare(titleA);
+            } else if (sortMode === 'time') {
+                const dateA = new Date(a.createdTime);
+                const dateB = new Date(b.createdTime);
+                return isAscending
+                    ? dateA.getTime() - dateB.getTime()
+                    : dateB.getTime() - dateA.getTime();
+            }
+            return 0;
+        });
+
+        return sortedTodos.map(todo => ({
+            id: todo.id,
+            title: todo.fields.title,
+            createdTime: todo.createdTime,
+        }));
+    } catch (error) {
+        console.error("Error fetching todos:", error);
+        throw error;
+    }
 };
 
 export const addTodoToAPI = async (newTodo: { title: string }) => {
