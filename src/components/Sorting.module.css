@@ -1,0 +1,29 @@
+.sorting {
+    margin-top: 0.5rem;
+    align-items: center;
+    gap: 1rem;
+    background: #ffffff;
+    padding: 0.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.sortingAlphabet {
+    background-color: #f76c6c;
+    color: #ffffff;
+    border: none;
+    padding: 0.3rem 0.6rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.sortingTime {
+    background-color: #42a5f5;
+    color: #ffffff;
+    border: none;
+    padding: 0.3rem 0.6rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}

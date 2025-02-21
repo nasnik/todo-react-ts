@@ -1,0 +1,41 @@
+.sortToggleContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: Arial, sans-serif;
+}
+
+.sortLabel {
+    font-size: 14px;
+    color: #333;
+}
+
+.customToggle {
+    width: 40px;
+    height: 20px;
+    border-radius: 12px;
+    background-color: #f76c6c;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.customToggle.active {
+    background-color: #4a90e2;
+}
+
+.toggleThumb {
+    width: 16px;
+    height: 16px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+}
+
+.customToggle.active .toggleThumb {
+    transform: translateX(20px);
+}
