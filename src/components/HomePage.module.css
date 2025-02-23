@@ -1,0 +1,40 @@
+/* Full-page layout */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    background-color: #fff3e0; /* Matching the To-Do App */
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Header styles */
+.header h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.header p {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 2rem;
+}
+
+/* Call-to-Action Button */
+.ctaButton {
+    background-color: #f76c6c; /* Same as Remove button */
+    color: white;
+    font-size: 1.2rem;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.ctaButton:hover {
+    background-color: #1e88e5; /* Hover color similar to buttons */
+}

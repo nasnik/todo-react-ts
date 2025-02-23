@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
-import styles from "./App.module.css";
-import TodoList from "./components/TodoList.tsx";
-import AddTodoForm from "./components/AddTodoForm.tsx";
 import { Todo } from "./types.ts";
-import { addTodoToAPI, fetchTodos } from "./utils/api.ts";
+import {addTodoToAPI, deleteTodoFromAPI, fetchTodos, updateTodoInAPI} from "./utils/api.ts";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import BalloonContainer from "./components/BalloonContainer.tsx";
-import Pagination from "./components/Pagination.tsx";
-import Sorting from "./components/Sorting.tsx";
+import TodoContainer from "./components/TodoContainer.tsx";
+import HomePage from "./components/HomePage.tsx";
 
 function App() {
     const [todoList, setTodoList] = useState<Todo[]>([]);
@@ -16,6 +12,8 @@ function App() {
     const [sortMode, setSortMode] = useState<'alphabetic' | 'time'>('time');
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5);
+    const [editToggle, setEditToggle] = useState(null);
+    const [editInput, setEditInput] = useState('');
 
     const fetchData = async () => {
         setIsLoading(true);
@@ -32,8 +30,6 @@ function App() {
     const addTodo = async (newTodo: Todo) => {
         try {
             const addedTodo = await addTodoToAPI(newTodo);
-
-            // Update the todoList and sort it based on the current sorting mode and order
             setTodoList((prevTodoList) => {
                 const updatedList = [...prevTodoList, addedTodo];
 
@@ -54,8 +50,49 @@ function App() {
         }
     };
 
-    const removeTodo = (id: number) => {
-        setTodoList((prevTodoList) => prevTodoList.filter((todo) => todo.id !== id));
+    const removeTodo = async (id: number) => {
+        try {
+            await deleteTodoFromAPI(id);
+            setTodoList((prevTodoList) => prevTodoList.filter((todo) => todo.id !== id));
+        } catch (error) {
+            console.error('Error deleting task:', error);
+        }
+    };
+    const checkTask = async (id: number) => {
+        try {
+            const taskToUpdate = todoList.find(todo => todo.id === id);
+            if (!taskToUpdate) return;
+
+            const updatedTask = await updateTodoInAPI(id, { completed: !taskToUpdate.completed });
+
+            setTodoList((prevTodoList) =>
+                prevTodoList.map((task) =>
+                    task.id === id ? { ...task, completed: updatedTask.completed } : task
+                )
+            );
+            fetchData();
+        } catch (error) {
+            console.error('Error updating task status:', error);
+        }
+    };
+    const editTask = (id:string) => {
+        setEditToggle(id);
+    }
+    const handleEditInput = (e) => {
+        setEditInput(e.target.value);
+    }
+    const saveTask = async (id: string) => {
+        try {
+            const updatedTask = await updateTodoInAPI(id, { title: editInput });
+            setTodoList((prevTodoList) =>
+                prevTodoList.map((task) => (task.id === id ? updatedTask : task))
+            );
+            setEditToggle(null);
+            setEditInput('');
+            fetchData();
+        } catch (error) {
+            console.error('Error saving task:', error);
+        }
     };
 
     useEffect(() => {
@@ -79,30 +116,28 @@ function App() {
             ) : (
                 <Routes>
                     <Route
-                        path="/"
-                        element={
-                            <BalloonContainer>
-                                <div className={styles.Container} id="balloon-container">
-                                <h1 className={styles.Title}>Todo List</h1>
-                                <AddTodoForm addTodo={addTodo} />
-                                    <Sorting
-                                        sortMode={sortMode}
-                                        isAscending={isAscending}
-                                        onSortModeChange={setSortMode}
-                                        onToggleAscending={() => setIsAscending((prev) => !prev)}
-                                    />
-                                <TodoList todoList={currentTodos} removeTodo={removeTodo} />
-                                    <Pagination
-                                        totalItems={todoList.length}
-                                        itemsPerPage={itemsPerPage}
-                                        currentPage={currentPage}
-                                        onPageChange={setCurrentPage}
-                                    />
-                                </div>
-                            </BalloonContainer>
-                        }
+                        path="/todo"
+                        element={<TodoContainer
+                            addTodo={addTodo}
+                            sortMode={sortMode}
+                            isAscending={isAscending}
+                            setSortMode={setSortMode}
+                            editInput={editInput}
+                            setIsAscending={editInput}
+                            setCurrentPage={setCurrentPage}
+                            currentTodos={currentTodos}
+                            currentPage={currentPage}
+                            removeTodo={removeTodo}
+                            checkTask={checkTask}
+                            editTask={editTask}
+                            saveTask={saveTask}
+                            editToggle={editToggle}
+                            handleEditInput={handleEditInput}
+                            todoList={todoList}
+                            itemsPerPage={itemsPerPage}
+                        />}
                     />
-                    <Route path="/new" element={<h1>New Todo List</h1>} />
+                    <Route path="/" element={<HomePage/>} />
                 </Routes>
             )}
         </BrowserRouter>

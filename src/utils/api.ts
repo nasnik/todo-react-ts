@@ -54,6 +54,7 @@ export const fetchTodos = async (isAscending: boolean, sortMode: 'alphabetic' | 
         return sortedTodos.map(todo => ({
             id: todo.id,
             title: todo.fields.title,
+            completed: todo.fields.completed,
             createdTime: todo.createdTime,
         }));
     } catch (error) {
@@ -64,13 +65,24 @@ export const fetchTodos = async (isAscending: boolean, sortMode: 'alphabetic' | 
 
 export const addTodoToAPI = async (newTodo: { title: string }) => {
     const data = await apiRequest(AIRTABLE_API_BASE_URL, 'POST', {
-        fields: { title: newTodo.title },
+        fields: { title: newTodo.title, completed: false },
     });
     return {
         id: data.id,
         title: data.fields.title,
+        completed: data.fields.completed
     };
 };
 
+export const deleteTodoFromAPI = async (id: string) => {
+    try {
+        await apiRequest(`${AIRTABLE_API_BASE_URL}/${id}`, 'DELETE');
+    } catch (error) {
+        console.error("Failed to delete todo:", error);
+    }
+};
 
+export const updateTodoInAPI = async (id: string, updateData: { completed?: boolean; title?: string }) => {
+    return apiRequest(`${AIRTABLE_API_BASE_URL}/${id}`, 'PATCH', { fields: updateData });
+};
 

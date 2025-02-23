@@ -1,8 +1,9 @@
 import React from "react";
 
 export interface Todo {
-    id: number;
+    id: string;
     title: string;
+    completed: boolean;
 }
 
 export interface TodoListProps {
