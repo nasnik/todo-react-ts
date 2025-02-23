@@ -1,24 +1,69 @@
 .ListItem {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 0.5rem 1rem;
     margin-bottom: 0.5rem;
     background: #fff3e0;
     border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    gap: 12px;
 }
 
-.ListItem button {
+.CustomCheckbox {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f76c6c;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    background-color: #fff;
+}
+
+.CustomCheckbox:checked {
+    background-color: #f76c6c;
+    border: 2px solid #f76c6c;
+}
+
+.CustomCheckbox:checked::after {
+    content: "✔";
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.TaskTitle {
+    flex-grow: 1;
+    margin-left: 10px;
+    margin-right: 16px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.Buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.Buttons button {
     background-color: #f76c6c;
     color: #ffffff;
     border: none;
-    padding: 0.3rem 0.6rem;
+    padding: 6px 12px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 0.9rem;
+    transition: 0.3s;
 }
 
-.ListItem button:hover {
+.Buttons button:hover {
     background-color: #1e88e5;
+}
+
+.Buttons button:active {
+    transform: scale(0.95);
 }
