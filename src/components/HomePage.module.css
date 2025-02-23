@@ -1,4 +1,4 @@
-/* Full-page layout */
+
 .container {
     display: flex;
     flex-direction: column;
@@ -6,14 +6,14 @@
     justify-content: center;
     height: 100vh;
     text-align: center;
-    background-color: #fff3e0; /* Matching the To-Do App */
+    background-color: #f8e9a1;
     font-family: 'Roboto', sans-serif;
 }
 
-/* Header styles */
 .header h1 {
     font-size: 2.5rem;
-    color: #333;
+    color: #f76c6c;
+    font-weight: bold;
     margin-bottom: 0.5rem;
 }
 
@@ -23,7 +23,6 @@
     margin-bottom: 2rem;
 }
 
-/* Call-to-Action Button */
 .ctaButton {
     background-color: #f76c6c; /* Same as Remove button */
     color: white;
@@ -36,5 +35,5 @@
 }
 
 .ctaButton:hover {
-    background-color: #1e88e5; /* Hover color similar to buttons */
+    background-color: #1e88e5;
 }
