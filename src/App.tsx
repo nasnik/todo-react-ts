@@ -31,7 +31,7 @@ function App() {
         try {
             const addedTodo = await addTodoToAPI(newTodo);
             setTodoList((prevTodoList) => {
-                const updatedList = [...prevTodoList, addedTodo];
+                const updatedList = [addedTodo, ...prevTodoList];
 
                 // Sorting logic
                 return updatedList.sort((a, b) => {
@@ -123,7 +123,7 @@ function App() {
                             isAscending={isAscending}
                             setSortMode={setSortMode}
                             editInput={editInput}
-                            setIsAscending={editInput}
+                            setIsAscending={setIsAscending}
                             setCurrentPage={setCurrentPage}
                             currentTodos={currentTodos}
                             currentPage={currentPage}
